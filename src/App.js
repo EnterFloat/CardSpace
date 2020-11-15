@@ -26,7 +26,7 @@ function App() {
         >
           Learn React
         </a>
-        <p>The current time is {currentTime}.</p>
+        <p>The current time is {currentTime}. Heroku is connected to kasperskov01/mnemo</p>
       </header>
     </div>
   );
