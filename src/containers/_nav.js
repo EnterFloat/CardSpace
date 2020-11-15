@@ -11,6 +11,16 @@ export default [
   },
   {
     _tag: 'CSidebarNavTitle',
+    _children: ['Chart Gen']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Pie',
+    to: '/chartgen/pie',
+    icon: 'cil-chart-pie',    
+  },
+  {
+    _tag: 'CSidebarNavTitle',
     _children: ['Theme']
   },
   {

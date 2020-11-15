@@ -30,12 +30,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 cors = CORS(app)
 
-print(S3_BUCKET_NAME)
-print(AWS_ACCESS_KEY_ID)
-print(AWS_SECRET_ACCESS_KEY)
-
 # Connect to the S3 bucket and just drop it on there
-# s3 = boto3.client('s3', aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 session = boto3.Session( aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 @app.route('/api')
@@ -45,11 +40,7 @@ def Welcome():
 
 @app.route('/api/justpie/')
 @cross_origin()
-def GeneratePie():
-    print("GeneratePie")    
-    print(S3_BUCKET_NAME)
-    print(AWS_ACCESS_KEY_ID)
-    print(AWS_SECRET_ACCESS_KEY)
+def GeneratePie():        
     # Get the input data (Wedge is the distance between slices) from the request    
     data = request.args.get('data')
     colors = request.args.get('colors')
@@ -74,11 +65,7 @@ def GeneratePie():
     s3 = session.resource('s3')
     img_name = random.randint(1000, 10000)    
     s3.Bucket(S3_BUCKET_NAME).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
-
-    # s3_resource = boto3.resource("s3")
-    # img_name = random.randint(1000, 10000)    
-    # s3_resource.Bucket(S3_BUCKET).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
-
+    
     status = {}
     status['status'] = 'DONE'
     status['message'] = 'https://'+ S3_BUCKET_NAME +'.s3.eu-north-1.amazonaws.com/charts/chart_' + str(img_name) + '.png'
