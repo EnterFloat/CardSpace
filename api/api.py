@@ -35,7 +35,7 @@ print(S3_KEY)
 print(S3_SECRET)
 
 # Connect to the S3 bucket and just drop it on there
-s3 = boto3.client('s3', aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
+# s3 = boto3.client('s3', aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
 
 @app.route('/api')
@@ -70,9 +70,13 @@ def GeneratePie():
     # Save the image temporary on the local machine
     plt.savefig(os.getcwd() + '/chart.png')
 
-    s3_resource = boto3.resource("s3")
+    s3_resource = boto3.resource("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
     img_name = random.randint(1000, 10000)    
     s3_resource.Bucket(S3_BUCKET).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
+
+    # s3_resource = boto3.resource("s3")
+    # img_name = random.randint(1000, 10000)    
+    # s3_resource.Bucket(S3_BUCKET).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
 
     status = {}
     status['status'] = 'DONE'
