@@ -19,10 +19,20 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import random
+from dotenv import load_dotenv
+load_dotenv()
+
+S3_BUCKET = os.environ['S3_BUCKET']
+S3_KEY = os.environ['S3_KEY']
+S3_SECRET = os.environ['S3_SECRET']
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 cors = CORS(app)
+
+print(S3_BUCKET)
+print(S3_KEY)
+print(S3_SECRET)
 
 # Connect to the S3 bucket and just drop it on there
 s3 = boto3.client('s3', aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
@@ -37,6 +47,9 @@ def Welcome():
 @cross_origin()
 def GeneratePie():
     print("GeneratePie")    
+    print(S3_BUCKET)
+    print(S3_KEY)
+    print(S3_SECRET)
     # Get the input data (Wedge is the distance between slices) from the request    
     data = request.args.get('data')
     colors = request.args.get('colors')
@@ -53,7 +66,7 @@ def GeneratePie():
     # Equal aspect ratio ensures that pie is drawn as a circle
     ax1.axis('equal')
     plt.tight_layout()
-    
+
     # Save the image temporary on the local machine
     plt.savefig(os.getcwd() + '/chart.png')
 
