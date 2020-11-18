@@ -46,6 +46,8 @@ import LoginButton from "../../components/LoginButton.js";
 const CardDecks = () => {
     const { getAccessTokenSilently } = useAuth0();
     const [message, setMessage] = useState(null);
+    const { REACT_APP_API_BASE_URL } = process.env;
+    const api_base_url = REACT_APP_API_BASE_URL;
 
     useEffect(() => {
       (async () => {
@@ -53,11 +55,11 @@ const CardDecks = () => {
           // const { REACT_APP_API_BASE_URL } = process.env;
           // const api_base_url = REACT_APP_API_BASE_URL;
           const token = await getAccessTokenSilently({
-            audience: 'http://localhost:5000/api/justpie',
+            audience: api_base_url,
             scope: 'read:current_user',
           });
           console.log(token)
-          const response = await fetch('http://localhost:5000/api/justpie?data=40,60&colors=ff00ff,00ffaa&wedge=0.05', {
+          const response = await fetch(api_base_url + '?data=40,60&colors=ff00ff,00ffaa&wedge=0.05', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
