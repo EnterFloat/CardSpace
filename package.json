@@ -48,7 +48,7 @@
     "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start-api": "cd api && venv/bin/flask run",
+    "start-api": "venv/bin/flask run",
     "start": "react-scripts start && yarn start-api",
     "build": "react-scripts build",
     "test": "react-scripts test",
