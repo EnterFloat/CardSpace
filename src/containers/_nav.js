@@ -21,6 +21,16 @@ export default [
   },
   {
     _tag: 'CSidebarNavTitle',
+    _children: ['Mnemo']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Card Decks',
+    to: '/card-decks',
+    icon: 'cil-chart-pie',    
+  },
+  {
+    _tag: 'CSidebarNavTitle',
     _children: ['Theme']
   },
   {

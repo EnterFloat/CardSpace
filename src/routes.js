@@ -39,6 +39,7 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
 const PieGen = React.lazy(() => import('./views/chartgen/PieGen'));
+const CardDecks = React.lazy(() => import('./views/card-decks/CardDecks'));
 
 
 const routes = [
@@ -83,7 +84,8 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   
-  { path: '/chartgen/pie', name: 'PieGen', component: PieGen }
+  { path: '/chartgen/pie', name: 'PieGen', component: PieGen },
+  { path: '/card-decks', name: 'CardDecks', component: CardDecks },
 ];
 
 export default routes;
