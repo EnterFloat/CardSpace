@@ -22,7 +22,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-
 # Connect to the S3 bucket and just drop it on there
 awsSession = boto3.Session( aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'], aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'])
 
