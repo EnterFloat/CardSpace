@@ -14,12 +14,14 @@ import store from "./store";
 
 React.icons = icons;
 
+const { AUTH0_DOMAIN, AUTH0_CLIENT_ID, API_AUDIENCE } = process.env;
+
 ReactDOM.render(
   <Auth0Provider
-    domain="mnemo.eu.auth0.com"
-    clientId="qnCk9fPSdBS8YdkmiVGl9a4BxZ06jU0D"
+    domain={AUTH0_DOMAIN}
+    clientId={AUTH0_CLIENT_ID}
     redirectUri={window.location.origin}
-    audience="http://localhost:5000/api/justpie"
+    audience={API_AUDIENCE}
     scope="read:current_user update:current_user_metadata"
   >
     <Provider store={store}>

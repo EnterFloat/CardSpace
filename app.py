@@ -3,43 +3,28 @@ import json
 import os
 
 from flask import Flask, render_template, send_from_directory, request, jsonify, make_response
-from flask_sqlalchemy import SQLAlchemy  # Database
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
+
+app = Flask(__name__, static_folder='../build', static_url_path='/')
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config["SQLALCHEMY_DATABASE_URI"] = app.config['DATABASE_URL']
+CORS(app)
+db = SQLAlchemy(app)
 
 import boto3
 
-from apimodule.config import S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DATABASE_URL
-
 from apimodule.auth import AuthError, requires_auth
-
-from apimodule.datalayer import *
+from apimodule.datalayer import db_init, User, Carddeck, Card
+db_init()
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-# from dotenv import load_dotenv
-# load_dotenv()
-# Move to data layer
-# Data bucket variables
-# S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-# AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-# AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-
-
-app = Flask(__name__, static_folder='../build', static_url_path='/')
-CORS(app)
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
-
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL if DATABASE_URL else "sqlite:///data.db"
-db.init_app(app)
-
-with app.app_context():
-    db_init()
-    db.create_all()
 
 # Connect to the S3 bucket and just drop it on there
-awsSession = boto3.Session( aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+awsSession = boto3.Session( aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'], aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'])
 
 @app.route('/api')
 @cross_origin(origin='*')
@@ -79,11 +64,11 @@ def GeneratePie():
     # Save image on local machine to AWS S3 Bucket
     s3 = awsSession.resource('s3')
     img_name = random.randint(1000, 10000)    
-    s3.Bucket(S3_BUCKET_NAME).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
+    s3.Bucket(app.config['S3_BUCKET_NAME']).upload_file(os.getcwd() + '/chart.png', "charts/chart_" + str(img_name) + ".png", ExtraArgs={'ACL':'public-read'})
     
     status = {}
     status['status'] = 'DONE'
-    status['message'] = 'https://'+ S3_BUCKET_NAME +'.s3.eu-north-1.amazonaws.com/charts/chart_' + str(img_name) + '.png'
+    status['message'] = 'https://'+ app.config['S3_BUCKET_NAME'] +'.s3.eu-north-1.amazonaws.com/charts/chart_' + str(img_name) + '.png'
     return make_response(jsonify(status), 200)
 
 

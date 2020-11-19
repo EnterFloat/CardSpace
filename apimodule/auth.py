@@ -1,10 +1,13 @@
+import os
 import json
 from flask import request, _request_ctx_stack
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
-from config import API_AUDIENCE, ALGORITHMS, AUTH0_DOMAIN
 
+API_AUDIENCE = os.environ['REACT_APP_API_BASE_URL']
+AUTH0_DOMAIN = os.environ['REACT_APP_AUTH0_DOMAIN']
+ALGORITHMS = os.environ['ALGORITHMS']
 
 class AuthError(Exception):
     def __init__(self, error, status_code):

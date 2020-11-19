@@ -52,8 +52,8 @@ const CardDecks = () => {
     useEffect(() => {
       (async () => {
         try {
-          // const { REACT_APP_API_BASE_URL } = process.env;
-          // const api_base_url = REACT_APP_API_BASE_URL;
+          // const { REACT_APP_API_AUDIENCE } = process.env;
+          // const api_base_url = REACT_APP_API_AUDIENCE;
           const token = await getAccessTokenSilently({
             audience: api_base_url,
             scope: 'read:current_user',
