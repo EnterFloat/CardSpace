@@ -48,7 +48,7 @@ const CardDecks = () => {
     const [message, setMessage] = useState(null);
     const { REACT_APP_API_BASE_URL } = process.env;
     const api_base_url = REACT_APP_API_BASE_URL;
-
+    console.log(api_base_url)
     useEffect(() => {
       (async () => {
         try {

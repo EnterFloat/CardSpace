@@ -14,14 +14,17 @@ import store from "./store";
 
 React.icons = icons;
 
-const { AUTH0_DOMAIN, AUTH0_CLIENT_ID, API_AUDIENCE } = process.env;
+const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID, REACT_APP_API_BASE_URL } = process.env;
+console.log(REACT_APP_AUTH0_DOMAIN)
+console.log(REACT_APP_AUTH0_CLIENT_ID)
+console.log(REACT_APP_API_BASE_URL)
 
 ReactDOM.render(
   <Auth0Provider
-    domain={AUTH0_DOMAIN}
-    clientId={AUTH0_CLIENT_ID}
+    domain={REACT_APP_AUTH0_DOMAIN}
+    clientId={REACT_APP_AUTH0_CLIENT_ID}
     redirectUri={window.location.origin}
-    audience={API_AUDIENCE}
+    audience={REACT_APP_API_BASE_URL}
     scope="read:current_user update:current_user_metadata"
   >
     <Provider store={store}>

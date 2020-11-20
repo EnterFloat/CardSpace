@@ -36,10 +36,11 @@ def Welcome():
     return jsonify(_users)
 
 
-@app.route('/api/justpie', methods=['POST'])
+@app.route('/api/justpie', methods=['GET', 'POST'])
 @cross_origin(origin='*')
 @requires_auth
-def GeneratePie():        
+def GeneratePie():      
+    print("GeneratePie")
     # Get the input data (Wedge is the distance between slices) from the request    
     data = request.args.get('data')
     colors = request.args.get('colors')
