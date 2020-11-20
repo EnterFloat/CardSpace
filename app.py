@@ -16,7 +16,7 @@ import boto3
 
 from apimodule.auth import AuthError, requires_auth
 from apimodule.datalayer import db_init, User, Carddeck, Card
-db_init()
+# db_init()
 
 import matplotlib
 matplotlib.use('Agg')
@@ -81,5 +81,6 @@ def handle_auth_error(ex):
 @app.route('/')
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
+
 if __name__ == '__main__':            
     app.run(host='0.0.0.0', debug=True)
