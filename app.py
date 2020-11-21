@@ -2,7 +2,7 @@ import random
 import json
 import os
 
-from flask import Flask, render_template, send_from_directory, request, jsonify, make_response
+from flask import Flask, render_template, send_from_directory, request, jsonify, make_response, _request_ctx_stack
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 
@@ -41,6 +41,7 @@ def Welcome():
 @requires_auth
 def GeneratePie():      
     print("GeneratePie")
+    print(_request_ctx_stack.top.current_user['sub'])
     # Get the input data (Wedge is the distance between slices) from the request    
     data = request.args.get('data')
     colors = request.args.get('colors')

@@ -1,9 +1,9 @@
 {
   "name": "@coreui/coreui-free-react-admin-template",
   "version": "3.0.0",
-  "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
+  "description": "CardSpace - Remember your flash cards best with spaced repetition.",
   "author": {
-    "name": "CoreUI",
+    "name": "CardSpace",
     "url": "https://coreui.io",
     "github": "https://github.com/coreui",
     "twitter": "https://twitter.com/core_ui"
