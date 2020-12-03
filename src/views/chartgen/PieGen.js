@@ -11,11 +11,12 @@ import {
   CCol,
 } from "@coreui/react";
 import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "../../components/LoginButton.js";
+
+import RichEditor from "../../components/RichEditor";
 
 const PieGen = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-
-  
 
   // Set up the state variables
   const [downloadLink, setDownloadLink] = useState(""); // Image
@@ -24,6 +25,10 @@ const PieGen = () => {
   const [data, setData] = useState("40,60");
   const [colors, setColors] = useState("003049,ffcdb2");
   const [wedge, setWedge] = useState(0.05);
+
+  const newConfig = null;
+  const [content, setContent] = useState("");
+
   // NB: This URL will changed depending on your release!!!
   // const api_base_url = "https://mnemo-flask-react.herokuapp.com/api/justpie";
   const { REACT_APP_API_BASE_URL } = process.env;
@@ -100,6 +105,11 @@ const PieGen = () => {
                 Generate Chart
               </CButton>
             </CTooltip>
+            <RichEditor
+              value={content}
+              config={newConfig}
+              onChange={(newContent) => setContent(newContent)}
+            />
           </CFormGroup>
 
           <img
@@ -111,7 +121,7 @@ const PieGen = () => {
         </CCardBody>
       ) : (
         <CCardBody>
-          <p>You must be signed in to use this feature.</p>
+          <p>You must be signed in to use this feature.</p>          
         </CCardBody>
       )}
     </CCard>

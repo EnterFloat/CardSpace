@@ -1,46 +1,35 @@
-import { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
-export const useApi = (url, options = {}) => {
-  const { getAccessTokenSilently } = useAuth0();
-  const [state, setState] = useState({
-    error: null,
-    loading: true,
-    data: null,
+export const apiCall = (options) => {
+  const { url, token, ...fetchOptions } = options;
+  return new Promise((resolve, reject) => {
+    try {
+      fetch(url, {
+        ...fetchOptions,
+        headers: {
+          ...fetchOptions.headers,
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          resolve({ data: res, error: null, loading: false });
+        })
+        .catch((err) => {
+          return reject({
+            err,
+            loading: false,
+          });
+        });
+    } catch (err) {
+      return reject({
+        err,
+        loading: false,
+      });
+    }
   });
-  const [refreshIndex, setRefreshIndex] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const { audience, scope, ...fetchOptions } = options;
-        const accessToken = await getAccessTokenSilently({ audience, scope });
-        const res = await fetch(url, {
-          ...fetchOptions,
-          headers: {
-            ...fetchOptions.headers,
-            // Add the Authorization header to the existing headers
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setState({
-          ...state,
-          data: await res.json(),
-          error: null,
-          loading: false,
-        });
-      } catch (error) {
-        setState({
-          ...state,
-          error,
-          loading: false,
-        });
-      }
-    })();
-  }, [refreshIndex]);
-
-  return {
-    ...state,
-    refresh: () => setRefreshIndex(refreshIndex + 1),
-  };
 };

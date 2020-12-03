@@ -1,4 +1,76 @@
 // Here you can add other styles
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+.c-main {
+    margin-top: 62px;
+}
+
+.navbar {
+    background-color: white;
+}
+
+.nav-p {
+    color: #111;
+    opacity: 1;
+}
+
 .submit-btn {
+  margin-top: 10px;
+}
+
+.card-deck-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-deck-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 auto;
+}
+
+.card-deck-buttons button {
+  margin: 0 0.5rem;
+}
+
+.card-deck-buttons button:last-child {
+  margin-right: 0;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.space-between h3 {
     margin-top: 10px;
+}
+
+.rating-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
 }

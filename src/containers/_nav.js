@@ -9,25 +9,55 @@ export default [
       text: 'NEW',
     }
   },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Chart Gen']
-  },
+  // {
+  //   _tag: 'CSidebarNavTitle',
+  //   _children: ['Chart Gen']
+  // },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Pie',
+  //   to: '/chartgen/pie',
+  //   icon: 'cil-chart-pie',    
+  // },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Pie',
-    to: '/chartgen/pie',
-    icon: 'cil-chart-pie',    
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Mnemo']
+    name: 'Create Card',
+    to: '/create-card',
+    icon: 'cil-short-text',    
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Card Decks',
     to: '/card-decks',
     icon: 'cil-chart-pie',    
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Card Deck',
+    to: '/card-deck',
+    icon: 'cil-chart-pie',    
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Study',
+    to: '/study',
+    icon: 'cil-chart-pie',    
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['']
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['']
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['']
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['']
   },
   {
     _tag: 'CSidebarNavTitle',

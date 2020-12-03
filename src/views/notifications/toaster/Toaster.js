@@ -149,7 +149,7 @@ const Toaster = () => {
               {Object.keys(toasters).map((toasterKey) => (
                 <CToaster
                   position={toasterKey}
-                  key={'toaster' + toasterKey}
+                  key={'toaster' + toasterKey}                  
                 >
                   {
                     toasters[toasterKey].map((toast, key)=>{
@@ -158,7 +158,7 @@ const Toaster = () => {
                         key={'toast' + key}
                         show={true}
                         autohide={toast.autohide}
-                        fade={toast.fade}
+                        fade={toast.fade}                        
                       >
                         <CToastHeader closeButton={toast.closeButton}>
                           Toast title

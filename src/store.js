@@ -1,7 +1,8 @@
 import { createStore } from 'redux'
 
 const initialState = {
-  sidebarShow: 'responsive'
+  sidebarShow: false
+  // sidebarShow: 'responsive'
 }
 
 const changeState = (state = initialState, { type, ...rest }) => {

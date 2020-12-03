@@ -15,18 +15,13 @@ import {
 import CIcon from "@coreui/icons-react";
 
 import MainChartExample from "../charts/MainChartExample.js";
-import LoginButton from "../../components/LoginButton.js";
-import LogoutButton from "../../components/LogoutButton.js";
 
 const WidgetsDropdown = lazy(() => import("../widgets/WidgetsDropdown.js"));
 const WidgetsBrand = lazy(() => import("../widgets/WidgetsBrand.js"));
 
-
 const Dashboard = () => {
   return (
     <>
-      <LoginButton />
-      <LogoutButton />
       <WidgetsDropdown />
       <CCard>
         <CCardBody>

@@ -36,6 +36,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "gulp-sass": "^4.1.0",
+    "jodit-react": "^1.0.66",
     "node-sass": "^4.14.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -82,5 +83,5 @@
     "node": "14.15.0",
     "npm": ">=6"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000/"
 }

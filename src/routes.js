@@ -40,6 +40,9 @@ const User = React.lazy(() => import('./views/users/User'));
 
 const PieGen = React.lazy(() => import('./views/chartgen/PieGen'));
 const CardDecks = React.lazy(() => import('./views/card-decks/CardDecks'));
+const CreateCard = React.lazy(() => import('./views/create-card/CreateCard'));
+const CardDeck = React.lazy(() => import('./views/card-deck/CardDeck'));
+const Study = React.lazy(() => import('./views/study/Study'));
 
 
 const routes = [
@@ -85,7 +88,10 @@ const routes = [
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   
   { path: '/chartgen/pie', name: 'PieGen', component: PieGen },
-  { path: '/card-decks', name: 'CardDecks', component: CardDecks },
+  { path: '/create-card/:id', name: 'Create Card', component: CreateCard },
+  { path: '/card-deck', name: 'Card Deck', component: CardDeck },
+  { path: '/card-decks', name: 'Card Decks', component: CardDecks, exact: true },
+  { path: '/card-decks/study/:id', name: 'Study', component: Study },
 ];
 
 export default routes;
