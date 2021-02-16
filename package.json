@@ -71,10 +71,6 @@
       "!src/serviceWorker.js",
       "!src/polyfill.js"
     ]
-  },
-  "engines": {
-    "node": "14.15.0",
-    "npm": ">=6"
-  },
+  },  
   "proxy": "http://localhost:5000/"
 }
