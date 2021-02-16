@@ -10,7 +10,7 @@ To list cards in database:
 \connect cardspacedb
 
 SELECT * FROM cards;
-
+```
 
 
 Clear database by calling ```db_init()``` from app.py.

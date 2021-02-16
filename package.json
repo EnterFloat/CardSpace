@@ -43,7 +43,7 @@
     "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start-api": "APP_SETTINGS=\"config.DevelopmentConfig\" python manage.py runserver",
+    "start-api": "python manage.py runserver",
     "start": "react-scripts start && yarn start-api",
     "build": "react-scripts build",
     "test": "react-scripts test",
