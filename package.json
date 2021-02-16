@@ -1,26 +1,19 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
-  "version": "3.0.0",
+  "name": "Cardspace",
+  "version": "0.3.0",
   "description": "CardSpace - Remember your flash cards best with spaced repetition.",
   "author": {
     "name": "CardSpace",
-    "url": "https://coreui.io",
-    "github": "https://github.com/coreui",
-    "twitter": "https://twitter.com/core_ui"
-  },
-  "contributors": [
-    {
-      "name": "CoreUI Team",
-      "url": "https://github.com/orgs/coreui/people"
-    }
-  ],
+    "url": "https://cardspace.dk",
+    "github": "https://github.com/EnterFloat/CardSpace"    
+  },  
   "homepage": ".",
-  "copyright": "Copyright 2017-2020 creativeLabs Łukasz Holeczek",
+  "copyright": "EnterFloat",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "url": "git@github.com:EnterFloat/CardSpace.git"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.3.0",
