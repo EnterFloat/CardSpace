@@ -49,23 +49,20 @@ class Card(db.Model):
     cardfront = db.Column(db.String(200000))
     cardback = db.Column(db.String(200000))
     due = db.Column(db.DateTime, default=datetime.now)
-    is_new = db.Column(db.Boolean, default=True)
+    e_factor = db.Column(db.Float, default=2.5)
+    repetitions = db.Column(db.Integer, default=0)
+    n = db.Column(db.Integer, default=0)
+    interval = db.Column(db.Integer, default=1)
     created = db.Column(db.DateTime, default=datetime.now)
-    rating_easy = db.Column(db.Interval, default=timedelta(days=1))
-    rating_good = db.Column(db.Interval, default=timedelta(hours=1))
-    rating_hard = db.Column(db.Interval, default=timedelta(minutes=15))
-    rating_again = db.Column(db.Interval, default=timedelta(minutes=10))
 
-    def __init__(self, deckid, cardtype, cardfront, cardback, due, is_new=True):
+    def __init__(self, deckid, cardtype, cardfront, cardback):
         self.deckid = deckid
-        self.cardtype = cardtype   
+        self.cardtype = cardtype    
         self.cardfront = cardfront   
-        self.cardback = cardback   
-        self.due = due   
-        self.is_new = is_new
+        self.cardback = cardback           
     
     def as_dict(self):
-        return {'id': self.id, 'deckid': self.deckid, 'cardtype': self.cardtype, 'cardfront': self.cardfront, 'cardback': self.cardback, 'created': self.created, 'due': self.due, 'is_new': self.is_new, 'ratings': {'easy': str(self.rating_easy), 'good': str(self.rating_good), 'hard': str(self.rating_hard), 'again': str(self.rating_again)}}
+        return {'id': self.id, 'deckid': self.deckid, 'cardtype': self.cardtype, 'cardfront': self.cardfront, 'cardback': self.cardback, 'created': self.created, 'due': self.due, 'repetitions': self.repetitions, 'e_factor': self.e_factor, 'interval': self.interval}
 
 
 def get_user_with(authid):

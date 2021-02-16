@@ -26,7 +26,8 @@ const Study = (props) => {
   const [auth0Token, setAuth0Token] = useState("");
   const [shouldFetch, setShouldFetch] = useState(true);
   const [deckId, setDeckId] = useState(-1);
-  const [cards, setCards] = useState([]);  
+  const [cards, setCards] = useState([]);
+  const [card, setCard] = useState([]);
   const { REACT_APP_API_BASE_URL } = process.env;
 
   const location = useLocation();
@@ -52,25 +53,24 @@ const Study = (props) => {
     "<h1>Goodbye</h1><p>Back. Pleasse rate</p>"
   );
 
-
-  function HandleCardRate(cardid, rating='') {
+  function HandleCardRate(cardid, rating = "") {
     let options = {
       token: auth0Token,
       url: REACT_APP_API_BASE_URL + "/rate-card",
       method: "POST",
       body: JSON.stringify({
         cardid: cardid,
-        rating: rating
+        rating: rating,
       }),
     };
     apiCall(options)
       .then((res) => {
         alert(JSON.stringify(res.data));
-        
+        if (res.data.repeat == false) setCards(cards.slice(1));
+        setRevealBack(false);
       })
       .catch((err) => alert("Could not rate card"));
   }
-
 
   function HandleFetchCards() {
     console.log("deck id " + deckId);
@@ -96,6 +96,12 @@ const Study = (props) => {
   }, [deckId]);
 
   useEffect(() => {
+    if (cards) {
+      setCard(cards[0]);
+    }
+  });
+
+  useEffect(() => {
     if (!isAuthenticated) {
       return;
     }
@@ -117,94 +123,149 @@ const Study = (props) => {
     }
   }, []);
   console.log(revealBack);
+  if (!card?.id) {
+    return (
+      <p>
+        Congratulations! You have studied every card in this deck. Take a break.
+      </p>
+    );
+  }
   return (
     <>
       {isAuthenticated ? (
         <>
-          {cards.map((card) => (
-            <CCard>
-              <CCardHeader>
-                <h2>You are studying {card.id}. Due {card.due}</h2>
-              </CCardHeader>
-              {!revealBack ? (
-                <CCardBody>
-                  <CCol className="space-between">
-                    <h3>Front:</h3>
-                    <CButton color="secondary" variant="outline">
-                      Edit card
-                    </CButton>
-                  </CCol>
-                  <RichEditor
-                    name="card-front"
-                    content={card.cardfront}
-                    config={newConfigFront}
-                    onChange={(newContentFront) =>
-                      setContentFront(newContentFront)
-                    }
-                  />
-                  <br />
-                  <CCol className="center">
-                    <CButton
-                      onClick={() => setRevealBack(true)}
-                      color="primary"
-                    >
-                      Flip Card
-                    </CButton>
-                  </CCol>
-                </CCardBody>
-              ) : (
-                <CCardBody>
-                  <CCol className="space-between">
-                    <h3>Back:</h3>
-                    <CButton color="secondary" variant="outline">
-                      Edit card
-                    </CButton>
-                  </CCol>
-                  <RichEditor
-                    name="card-back"
-                    content={card.cardback}
-                    config={newConfigBack}
-                    onChange={(newContentBack) =>
-                      setContentBack(newContentBack)
-                    }
-                  />
-                  <br />
-                  <CForm>
-                    <CFormGroup>
-                      <CRow>
-                        <CButtonGroup className="center">
-                          <div className="rating-div">
-                            <CLabel htmlFor="again">{"<10 min"}</CLabel>
-                            <CButton name="again" color="primary" onClick={() => HandleCardRate(card.id, 'again')}>
-                              Again
+          <CCard>
+            <CCardHeader>
+              <h2>
+                You are studying {card.id}. Due {card.due}
+              </h2>
+            </CCardHeader>
+            {!revealBack ? (
+              <CCardBody>
+                <CCol className="space-between">
+                  <h3>Front:</h3>
+                  <CButton color="secondary" variant="outline">
+                    Edit card
+                  </CButton>
+                </CCol>
+                <RichEditor
+                  name="card-front"
+                  content={card.cardfront}
+                  config={newConfigFront}
+                  onChange={(newContentFront) =>
+                    setContentFront(newContentFront)
+                  }
+                />
+                <br />
+                <CCol className="center">
+                  <CButton onClick={() => setRevealBack(true)} color="primary">
+                    Flip Card
+                  </CButton>
+                </CCol>
+              </CCardBody>
+            ) : (
+              <CCardBody>
+                <CCol className="space-between">
+                  <h3>Back:</h3>
+                  <CButton color="secondary" variant="outline">
+                    Edit card
+                  </CButton>
+                </CCol>
+                <RichEditor
+                  name="card-back"
+                  content={card.cardback}
+                  config={newConfigBack}
+                  onChange={(newContentBack) => setContentBack(newContentBack)}
+                />
+                <br />
+                <CCol>
+                  <h5>Rate quality of recall:</h5>
+                </CCol>
+                <CForm>
+                  <CFormGroup>
+                    <CRow>
+                      <CButtonGroup className="center">
+                        <div className="rating-div">
+                          <CTooltip content={`Complete blackout`}>
+                            <CButton
+                              name="0"
+                              color="danger"
+                              onClick={() => HandleCardRate(card.id, 0)}
+                            >
+                              0
                             </CButton>
-                          </div>
-                          <div className="rating-div">
-                            <CLabel htmlFor="hard">{"1 day"}</CLabel>
-                            <CButton name="hard" color="primary" onClick={() => HandleCardRate(card.id, 'hard')}>
-                              Hard
+                          </CTooltip>
+                        </div>
+                        <div className="rating-div">
+                          <CTooltip
+                            content={`Incorrect response; the correct one remembered`}
+                          >
+                            <CButton
+                              name="1"
+                              color="warning"
+                              onClick={() => HandleCardRate(card.id, 1)}
+                            >
+                              1
                             </CButton>
-                          </div>
-                          <div className="rating-div">
-                            <CLabel htmlFor="good">{"3 days"}</CLabel>
-                            <CButton name="good" color="primary" onClick={() => HandleCardRate(card.id, 'good')}>
-                              Good
+                          </CTooltip>
+                        </div>
+                        <div className="rating-div">
+                          <CTooltip
+                            content={`Incorrect response; where the correct one seemed easy to recall`}
+                          >
+                            <CButton
+                              name="2"
+                              color="primary"
+                              onClick={() => HandleCardRate(card.id, 2)}
+                            >
+                              2
                             </CButton>
-                          </div>
-                          <div className="rating-div">
-                            <CLabel htmlFor="easy">{"7 days"}</CLabel>
-                            <CButton name="easy" color="primary" onClick={() => HandleCardRate(card.id, 'easy')}>
-                              Easy
+                          </CTooltip>
+                        </div>
+                        <div className="rating-div">
+                          <CTooltip
+                            content={`Correct response recalled with serious difficulty`}
+                          >
+                            <CButton
+                              name="3"
+                              color="info"
+                              onClick={() => HandleCardRate(card.id, 3)}
+                            >
+                              3
                             </CButton>
-                          </div>
-                        </CButtonGroup>
-                      </CRow>
-                    </CFormGroup>
-                  </CForm>
-                </CCardBody>
-              )}
-            </CCard>
-          ))}
+                          </CTooltip>
+                        </div>
+                        <div className="rating-div">
+                          <CTooltip
+                            content={`Correct response after a hesitation`}
+                          >
+                            <CButton
+                              name="4"
+                              color="success"
+                              onClick={() => HandleCardRate(card.id, 4)}
+                            >
+                              4
+                            </CButton>
+                          </CTooltip>
+                        </div>
+                        <div className="rating-div">
+                          <CTooltip content={`Perfect response`}>
+                            <CButton
+                              name="5"
+                              color="success"
+                              onClick={() => HandleCardRate(card.id, 5)}
+                            >
+                              5
+                            </CButton>
+                          </CTooltip>
+                        </div>
+                      </CButtonGroup>
+                    </CRow>
+                  </CFormGroup>
+                </CForm>
+              </CCardBody>
+            )}
+          </CCard>
         </>
       ) : (
         <NotSignedIn />

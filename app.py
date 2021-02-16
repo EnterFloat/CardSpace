@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import random
 import json
 import os
+import math
 
 from flask import Flask, render_template, send_from_directory, request, jsonify, make_response, _request_ctx_stack
 from flask_sqlalchemy import SQLAlchemy, functools
@@ -46,8 +47,8 @@ def all_carddecks():
     _carddecks = []
     for carddeck in carddecks:
         _carddeck = carddeck.as_dict()
-        _carddeck['due'] = Card.query.filter_by(deckid=carddeck.id).filter(Card.due<=datetime.today()).filter(Card.is_new==False).count()
-        _carddeck['new'] = Card.query.filter_by(deckid=carddeck.id).filter(Card.is_new==True).count()
+        _carddeck['due'] = Card.query.filter_by(deckid=carddeck.id).filter(Card.due<=datetime.today()).filter(Card.repetitions!=0).count()
+        _carddeck['new'] = Card.query.filter_by(deckid=carddeck.id).filter(Card.repetitions==0).count()
         _carddecks.append(_carddeck)
     return jsonify(_carddecks)
 
@@ -135,6 +136,71 @@ def create_card_deck():
     return make_response(jsonify(response), 200)
 
 
+# Rename card deck
+@app.route('/api/rename-deck', methods=['POST'])
+@cross_origin(origin='*')
+@requires_auth
+def rename_deck():
+    response = {}
+    print("Renamaing a card deck")
+    data = request.data
+    print(data)
+    if data:
+        data = json.loads(data)
+    else:
+        response = {"status": "no card deck id and new name provided"}    
+        return make_response(jsonify(response), 200)
+    print(data)    
+
+    user_sub = _request_ctx_stack.top.current_user['sub'] 
+    print("get_user_with")
+    user = get_user_with(user_sub) 
+    print(user)
+    user_dict = user['user'].as_dict()
+    print(user_dict)
+
+    carddeck = Carddeck.query.filter_by(id = data['deckId']).first()
+    carddeck.deckname =  data['newName']
+    db.session.commit()
+
+    response = {"status": "good", "user": user_dict, "carddeck": carddeck.as_dict()}
+    return make_response(jsonify(response), 200)
+
+
+# Delete card deck
+@app.route('/api/delete-deck', methods=['DELETE'])
+@cross_origin(origin='*')
+@requires_auth
+def delete_deck():
+    response = {}
+    print("Deleting a card deck")
+    data = request.data
+    print(data)
+    if data:
+        data = json.loads(data)
+    else:
+        response = {"status": "no card deck id provided"}    
+        return make_response(jsonify(response), 200)
+    print(data)    
+
+    user_sub = _request_ctx_stack.top.current_user['sub'] 
+    print("get_user_with")
+    user = get_user_with(user_sub) 
+    print(user)
+    user_dict = user['user'].as_dict()
+    print(user_dict)
+
+    carddeck = Carddeck.query.filter_by(id = data['deckId']).first()
+    cards = Card.query.filter_by(deckid = data['deckId']).all()
+    db.session.delete(carddeck)
+    for card in cards:
+        db.session.delete(card)
+    db.session.commit()
+
+    response = {"status": "good", "user": user_dict}
+    return make_response(jsonify(response), 200)
+
+
 # Create card
 @app.route('/api/create-card', methods=['GET', 'POST'])
 @cross_origin(origin='*')
@@ -156,8 +222,8 @@ def create_card():
 
     # Ensure that the carddeck belongs to this user ...
     # ...
-
-    card = Card(deckid=data['deckid'],cardtype="1",cardfront=data['contentFront'],cardback=data['contentBack'],due=datetime.now())
+    print(data)
+    card = Card(deckid=data['deckid'],cardtype="1",cardfront=data['contentFront'],cardback=data['contentBack'])
     # card = Card(data['deckid'], "1", data['contentFront'], data['contentBack'], datetime.now() + timedelta(days=1))
     db.session.add(card)
     db.session.commit()
@@ -202,6 +268,31 @@ def update_card():
 @cross_origin(origin='*')
 @requires_auth
 def rate_card():
+
+    # uses algorithm:
+    # https://www.supermemo.com/en/archives1990-2015/english/ol/sm2
+    
+    def calc_EF(q, EF):
+        new_EF = EF + (0.1-(5-q)*(0.08+(5-q)*0.02))
+        if EF < 1.3:
+            new_EF = 1.3
+        return new_EF * 10**3 // 1 / 10**3      # limit decimals
+
+    def calc_interval(EF, old_I, n):
+        print("n calc: " + str(n))
+        I = None
+        if n == 0:
+            I = 0
+        elif n == 1:
+            I = 1
+        elif n == 2:
+            I = 3
+        else:
+            I = old_I * EF
+
+        print([n, I])
+        return math.ceil(I)
+        
     response = {}
     print("Rate a card")
     data = request.data
@@ -221,22 +312,30 @@ def rate_card():
 
     card = Card.query.filter_by(id=data['cardid']).first()
 
-    if data['rating'] == 'easy':
-        card.due = datetime.now() + card.rating_easy
-    elif data['rating'] == 'good':
-        card.due = datetime.now() + card.rating_good
-    elif data['rating'] == 'hard':
-        card.due = datetime.now() + card.rating_hard
-    elif data['rating'] == 'again':
-        card.due = datetime.now() + card.rating_again
+    q = data['rating']
+    should_repeat = None
 
-    card.is_new = False
+    if q < 3:
+        card.n = 0    
+        card.interval = calc_interval(card.e_factor, card.interval, card.n)        
+        should_repeat = True
+    else:
+        card.n += 1
+        print("card.e_factor " + str(card.e_factor))
+        card.e_factor = calc_EF(q, card.e_factor)
+        print("card.e_factor changed " + str(card.e_factor))
+        card.interval = calc_interval(card.e_factor, card.interval, card.n)
+        should_repeat = False
+
+    
+    card.repetitions += 1
+    card.due = datetime.now() + timedelta(seconds=card.interval)
 
     # Update new ratings here
 
     db.session.commit()
 
-    response = {"status": "good", "card": card.as_dict()}
+    response = {"status": "good", "card": card.as_dict(), "repeat": should_repeat}
     return make_response(jsonify(response), 200)
 
 

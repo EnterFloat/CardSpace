@@ -56,6 +56,7 @@ const CardDecks = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
   const [newDeckName, setNewDeckName] = useState("");
+  const [deckRename, setDeckRename] = useState("");
   const [users, setUsers] = useState({});
 
   // const token = await getAccessTokenSilently({
@@ -99,6 +100,43 @@ const CardDecks = (props) => {
         setShouldFetch(false);
       })
       .catch((err) => alert("Could not fetch decks"));
+  }
+  
+  
+  function HandleRenameDeck() {
+    let options = {
+      token: auth0Token,
+      url: REACT_APP_API_BASE_URL + "/rename-deck",
+      method: "POST",
+      body: JSON.stringify({
+        deckId: currentItem.id,
+        newName: deckRename,
+      }),
+    };
+    apiCall(options)
+      .then((res) => {
+        console.log(JSON.stringify(res));        
+        setShouldFetch(true);
+        setDeckRename("")
+      })
+      .catch((err) => alert("Could not rename deck"));
+  }
+  
+  function HandleDeleteDeck() {
+    let options = {
+      token: auth0Token,
+      url: REACT_APP_API_BASE_URL + "/delete-deck",
+      method: "DELETE",
+      body: JSON.stringify({
+        deckId: currentItem.id,        
+      }),
+    };
+    apiCall(options)
+      .then((res) => {
+        console.log(JSON.stringify(res));        
+        setShouldFetch(true);
+      })
+      .catch((err) => alert("Could not delete deck"));
   }
 
   useEffect(() => {
@@ -295,6 +333,7 @@ const CardDecks = (props) => {
                 <CButton
                   color="danger"
                   onClick={() => {
+                    HandleDeleteDeck()
                     setDeleteModal(false);
                   }}
                 >
@@ -322,12 +361,15 @@ const CardDecks = (props) => {
                   <CInput
                     name="new-name"
                     placeholder={"New deck name..."}
+                    value={deckRename}
+                    onChange={(n) => setDeckRename(n.target.value)}
                   ></CInput>
                 </CModalBody>
                 <CModalFooter>
                   <CButton
                     color="primary"
                     onClick={() => {
+                      HandleRenameDeck()
                       setRenameModal(false);
                     }}
                   >
@@ -336,6 +378,7 @@ const CardDecks = (props) => {
                   <CButton
                     color="secondary"
                     onClick={() => {
+                      setDeckRename("")
                       setRenameModal(false);
                     }}
                   >
