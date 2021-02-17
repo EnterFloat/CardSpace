@@ -1,29 +1,27 @@
 export const logoNegative = ['608 134', `
-  <svg height="100%" viewBox="0 0 1205 294" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="100%" viewBox="0 0 1244 294" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>CardSpace Banner</title>
-    <desc>CardSpace</desc>
+    <title>banner</title>
+    <desc>Created with Sketch.</desc>
     <defs>
         <linearGradient x1="23.7858953%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
-            <stop stop-color="#001C3D" offset="0%"></stop>
-            <stop stop-color="#004FAF" offset="63.0806588%"></stop>
-            <stop stop-color="#006CEE" offset="100%"></stop>
+            <stop stop-color="#B06700" offset="0%"></stop>
+            <stop stop-color="#DE8100" offset="100%"></stop>
         </linearGradient>
         <linearGradient x1="0%" y1="50%" x2="99.8706715%" y2="50%" id="linearGradient-2">
-            <stop stop-color="#015DCB" offset="0%"></stop>
-            <stop stop-color="#5AA5FF" offset="100%"></stop>
+            <stop stop-color="#F18D00" offset="0%"></stop>
+            <stop stop-color="#FFB348" offset="100%"></stop>
         </linearGradient>
     </defs>
-    <g id="banner-negative" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="CardSpace">
+    <g id="banner" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CardSpace" transform="translate(0.000000, 36.000000)">
             <g id="Group">
-                <polygon id="Rectangle" fill="url(#linearGradient-1)" points="123.002433 29.008 322 29.008 322 264.992 123.002433 264.992"></polygon>
-                <polygon id="Rectangle" fill="url(#linearGradient-2)" points="0 15.68 220.934307 0 220.934307 294 0 278.32"></polygon>
+                <polygon id="Rectangle" fill="url(#linearGradient-1)" points="92.4428224 21.904 242 21.904 242 200.096 92.4428224 200.096"></polygon>
+                <polygon id="Rectangle" fill="url(#linearGradient-2)" points="0 11.84 166.043796 0 166.043796 222 0 210.16"></polygon>
             </g>
         </g>
-        <text id="CardSpace" font-family="HiraginoSans-W4, Hiragino Sans" font-size="140" font-weight="normal" letter-spacing="7.73999977" fill="#F4F4F4">
-            <tspan x="359" y="200">CardSpac</tspan>
-            <tspan x="1120.5" y="200">e</tspan>
+        <text id="CardSpace" font-family="HiraginoSans-W8, Hiragino Sans" font-size="140" font-weight="600" letter-spacing="7.73999977" fill="#FBFBFB">
+            <tspan x="275" y="200">CardSpace</tspan>
         </text>
     </g>
 </svg>

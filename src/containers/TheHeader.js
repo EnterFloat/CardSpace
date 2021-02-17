@@ -35,6 +35,7 @@ import {
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks,
 } from "./index";
+import { logo } from "../assets/icons/logo";
 
 const TheHeader = () => {
   const dispatch = useDispatch();
@@ -59,9 +60,9 @@ const TheHeader = () => {
 
   return (
     <div>
-      <CNavbar expandable="sm" className="navbar" light fixed="top">
+      <CNavbar expandable="md" className="navbar" fixed="top">
         <CToggler inNavbar onClick={() => setIsOpen(!isOpen)} />
-        <CNavbarBrand to="/">
+        <CNavbarBrand to="/">          
           <CIcon name="logo" height="35" alt="Logo" />
         </CNavbarBrand>
         <CCollapse show={isOpen} navbar>
@@ -71,22 +72,18 @@ const TheHeader = () => {
             <CNavLink to="/stats">Stats</CNavLink>
             <CNavLink to="/browse">Browse</CNavLink>
           </CNavbarNav>
-          <CNavbarNav className="ml-auto">
+          <CNavbarNav className="ml-auto">            
             <CDropdown inNav>
-              <CDropdownToggle color="primary">Language</CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>DA</CDropdownItem>
-                <CDropdownItem>EN</CDropdownItem>                
-              </CDropdownMenu>
-            </CDropdown>
-            <CDropdown inNav>
-              {
-                (isAuthenticated ? (
-                  <>
-                  <CDropdownToggle color="primary">User</CDropdownToggle>
-                  <CDropdownMenu>
+              {isAuthenticated ? (
+                <>
+                  <CDropdownToggle color="primary">Other</CDropdownToggle>
+                  <CDropdownMenu>                    
                     <CDropdownItem>Account</CDropdownItem>
                     <CDropdownItem>Settings</CDropdownItem>
+                    <CDropdownDivider></CDropdownDivider>
+                    <CDropdownItem header>Language</CDropdownItem>
+                    <CDropdownItem>DA</CDropdownItem>
+                    <CDropdownItem>EN</CDropdownItem>
                     <CDropdownDivider></CDropdownDivider>
                     <CDropdownItem
                       onClick={() =>
@@ -96,11 +93,10 @@ const TheHeader = () => {
                       Log out
                     </CDropdownItem>
                   </CDropdownMenu>
-                  </>
-                ) : (
-                  <CNavLink onClick={() => loginWithRedirect()}>Login</CNavLink>
-                ))
-              }
+                </>
+              ) : (
+                <CNavLink onClick={() => loginWithRedirect()}>Login</CNavLink>
+              )}
             </CDropdown>
           </CNavbarNav>
         </CCollapse>

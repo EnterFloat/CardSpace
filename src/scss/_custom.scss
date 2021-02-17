@@ -14,16 +14,33 @@ h3 {
 }
 
 .c-main {
-    margin-top: 62px;
+  margin-top: 62px;
+  padding-top: 15px;
+  width: 65%;
+  margin: 62px auto auto auto;
+}
+
+.c-app {
+  background-color: #f9f8f8;
+}
+
+.c-footer {
+  background-color: #2a2d34;
+}
+
+.c-footer span {
+  color: #fbfbfb;
 }
 
 .navbar {
-    background-color: white;
+  background-color: #2a2d34;
 }
 
-.nav-p {
-    color: #111;
-    opacity: 1;
+.nav-link {
+  color: #fbfbfb;
+  font-size: larger;
+  opacity: 1;
+  padding-bottom: 6px;
 }
 
 .submit-btn {
@@ -58,13 +75,13 @@ h3 {
 }
 
 .space-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .space-between h3 {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .rating-div {
@@ -73,4 +90,43 @@ h3 {
   justify-content: center;
   align-items: center;
   margin: 0.5rem;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .c-main {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .c-main {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .c-main {
+    width: 768px;    
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .c-main {
+    width: 992px;    
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .c-main {
+    width: 1200px;    
+  }
 }
