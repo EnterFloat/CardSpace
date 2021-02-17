@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CHeader,
@@ -24,6 +24,7 @@ import {
   CLink,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
+import SVG from "react-inlinesvg";
 import { useAuth0 } from "@auth0/auth0-react";
 
 // routes config
@@ -36,8 +37,10 @@ import {
   TheHeaderDropdownTasks,
 } from "./index";
 import { logo } from "../assets/icons/logo";
+import MyBanner from "../assets/icons/ReactBanner";
 
 const TheHeader = () => {
+  const ref = React.useRef();
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.sidebarShow);
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -62,8 +65,10 @@ const TheHeader = () => {
     <div>
       <CNavbar expandable="md" className="navbar" fixed="top">
         <CToggler inNavbar onClick={() => setIsOpen(!isOpen)} />
-        <CNavbarBrand to="/">          
-          <CIcon name="logo" height="35" alt="Logo" />
+        <CNavbarBrand to="/">   
+          <MyBanner/>          
+          {/* <SVG src={logo} ref={ref}></SVG> */}          
+          {/* <CIcon name="logo" height="35" alt="Logo" /> */}
         </CNavbarBrand>
         <CCollapse show={isOpen} navbar>
           <CNavbarNav>

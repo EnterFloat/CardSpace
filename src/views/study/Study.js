@@ -133,12 +133,12 @@ const Study = (props) => {
   return (
     <>
       {isAuthenticated ? (
-        <>
-          <CCard>
+        <>        
+          <CCard>            
             <CCardHeader>
               <h2>
-                You are studying {card.id}. Due {card.due}
-              </h2>
+                You are studying
+              </h2>              
             </CCardHeader>
             {!revealBack ? (
               <CCardBody>
